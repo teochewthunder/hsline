@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Line Chart</title>
+
+		<style>
+			#container
+			{
+				width: 100%;
+				height: 600px;
+			}
+
+			#dashboard
+			{
+				width: 100%;
+				height: 100px;
+				text-align: center;
+			}
+
+			label
+			{
+				display: inline-block;
+				width: 20em;
+				font-family: verdana;
+				color: rgba(200, 0, 0, 1);
+			}
+		</style>
+
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+		    	data["2016/2017"] = 
+		    	{
+					"categories": ["Roberto Firminho", "Jordan Henderson", "Sadio Mané", "Danny Ings"],
+					"appearances": [41, 27, 29, 2],
+					"goals": [12, 1, 13, 0]
+	            };
+
+		    	data["2017/2018"] = 
+		    	{
+					"categories": ["Roberto Firminho", "Jordan Henderson", "Sadio Mané", "Danny Ings", "Alex Oxlade-Chamberlain", "Mohd Salah"],
+					"appearances": [54, 20, 44, 14, 42, 52],
+					"goals": [27, 1, 20, 1, 5, 44]
+	            };
+
+		    	data["2018/2019"] = 
+		    	{
+					"categories": ["Roberto Firminho", "Jordan Henderson", "Sadio Mané", "Alex Oxlade-Chamberlain", "Mohd Salah", "Fabinho"],
+					"appearances": [48, 44, 50, 2, 52, 41],
+					"goals": [16, 1, 26, 0, 27, 1]
+	            };
+
+		    	data["2019/2020"] = 
+		    	{
+					"categories": ["Roberto Firminho", "Jordan Henderson", "Sadio Mané", "Alex Oxlade-Chamberlain", "Mohd Salah", "Fabinho"],
+					"appearances": [52, 40, 47, 43, 48, 39],
+					"goals": [12, 4, 22, 8, 23, 2]
+	            };
+
+		    	data["2020/2021"] = 
+		    	{
+					"categories": ["Roberto Firminho", "Jordan Henderson", "Sadio Mané", "Alex Oxlade-Chamberlain", "Mohd Salah", "Fabinho"],
+					"appearances": [48, 28, 48, 17, 51, 42],
+					"goals": [9, 1, 16, 1, 21, 0]
+	            };
+
+				var ddlPlayer = document.getElementById("ddlPlayer");
+				var keys = Object.keys(data);
+				var players = [];
+
+	            for(let i = 0; i < keys.length; i++) 
+	            {
+	            	for(let j = 0; j < data[keys[i]]["categories"].length; j++) 
+	            	{
+	            		if (players.indexOf(data[keys[i]]["categories"][j]) == -1) 
+	            		{
+	            			players.push(data[keys[i]]["categories"][j]);
+
+			            	var option = document.createElement("option");
+			            	option.value = data[keys[i]]["categories"][j];
+			            	option.innerHTML = data[keys[i]]["categories"][j];
+			            	ddlPlayer.appendChild(option);	
+	            		}
+		            }
+	            }
+				
+				renderLineChart();				
+		    });
+
+		    function renderLineChart()
+		    {
+		    	var player = document.getElementById("ddlPlayer").value;
+		    	var stat = document.getElementById("ddlStat").value;
+
+		    	var arrAverage = [];
+		    	var total = 0;
+
+				var keys = Object.keys(data);
+				var seasons = [];
+				var values = [];
+		    	for(let i = 0; i < keys.length; i++)
+		    	{
+		    		var playerIndex = data[keys[i]]["categories"].indexOf(player);
+		    		if (playerIndex != -1)
+		    		{
+		    			seasons.push(keys[i]);
+		    			values.push(data[keys[i]][stat][playerIndex]);
+		    		}
+		    	}
+
+		    	for(let i = 0; i < values.length; i++)
+		    	{
+		    		total += values[i];
+		    	}
+
+		    	for(let i = 0; i < values.length; i++)
+		    	{
+		    		arrAverage.push(parseFloat((total / values.length).toFixed(2)));
+		    	}
+
+		        const chart = Highcharts.chart("container", {
+		            chart: 
+		            {
+		                borderColor: "rgba(200, 0, 0, 1)",
+		                borderRadius: 10,
+		                borderWidth: 2,
+		            },
+		            title: 
+		            {
+		                text: "Liverpool FC",
+		                style: { color: "rgba(200, 0, 0, 1); font-size: 1.5em; font-weight: bold" }
+		            },
+		            subtitle: 
+		            {
+		                text: "Football statistics by TeochewThunder",
+		                style: { color: "rgba(200, 0, 0, 0.8); font-size: 0.8em;" }
+		            },
+		            colors: ["rgba(200, 0, 0, 1)"],
+		            xAxis: 
+		            {
+		                categories: seasons
+		            },
+		            yAxis: 
+		            {
+		                title: 
+		                {
+		                    text: ""
+		                },
+		                gridLineColor: "rgba(200, 0, 0, 0.2)",
+		                tickColor: "rgba(200, 0, 0, 0.2)"
+		            },
+		            series: 
+		            [				    	
+		            	{
+					        name: "Average " + stat + " for " + player,
+					        type: "spline",
+					        data: arrAverage,
+					        lineColor: "rgba(255, 200, 0, 1)",
+					        lineWidth: 3,
+					        dashStyle: "Dot",
+					        marker: 
+					        {
+						        fillColor: "rgba(255, 200, 0, 1)"
+					        }
+				    	},			            
+				    	{
+			                name: player + " " + stat,
+			                type: "spline",
+			                data: values,
+					        lineColor: "rgba(200, 0, 0, 1)",
+					        lineWidth: 5,
+					        dashStyle: "Solid",
+					        marker: 
+					        {
+						        fillColor: "rgba(200, 0, 0, 1)"
+					        }
+			            }
+		            ]
+		    	});
+		    }
+
+	    	const data = [];
+		</script>
+	</head>
+
+	<body>
+		<div id="container">
+
+		</div>
+
+		<div id="dashboard">
+			<label for="ddlPlayer">
+				PLAYER
+				<select id="ddlPlayer" onchange="renderLineChart()">
+
+				</select>
+			</label>
+
+			<label for="ddlStat">
+				STATISTICS
+				<select id="ddlStat" onchange="renderLineChart()">
+					<option value="appearances" selected>Appearances</option>
+					<option value="goals">Goals</option>
+				</select>
+			</label>
+		</div>
+	</body>
+</html>
