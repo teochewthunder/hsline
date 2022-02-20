@@ -1,4 +1,4 @@
-# hsline
+# Highcharts Line Chart
 This modifies the [LHighcharts Column Chart](https://github.com/teochewthunder/hsbar) to form a line chart based on the same data.
 
 ## Changes
