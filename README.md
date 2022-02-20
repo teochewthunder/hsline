@@ -9,4 +9,4 @@ This modifies the [LHighcharts Column Chart](https://github.com/teochewthunder/h
 - Extra code to populate the drop-down list with.
 - Extra code to pull out the required data for every refresh, and populate the line chart. *Note: This could be avoided by using an entirely new dataset with a new structure, but that is far more work than makng the system do the wrk for you.*
 - Function renaming and text changes.
-- Removing the `type` property from the configuration and adding a new object to the *series* property to display line data.
+- Removing the `type` property from the configuration and adding a new object to the `series` property to display line data.
