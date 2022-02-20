@@ -1,5 +1,5 @@
 # Highcharts Line Chart
-This modifies the [LHighcharts Column Chart](https://github.com/teochewthunder/hsbar) to form a line chart based on the same data.
+This modifies the [Highcharts Column Chart](https://github.com/teochewthunder/hsbar) to form a line chart based on the same data.
 
 ## Changes
 - Instead of displaying a list of seasons, a list of players will be used.
